@@ -8,6 +8,7 @@ on:
 jobs:
 
   tests:
+    name: Backend tests
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -64,6 +65,7 @@ jobs:
           tags: fantyissues/taski_backend:latest
 
   frontend_tests:
+    name: Frontend tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -122,6 +124,7 @@ jobs:
           tags: fantyissues/taski_gateway:latest
 
   deploy:
+    name: Deployment
     runs-on: ubuntu-latest
     needs:
       - build_and_push_to_docker_hub
@@ -156,6 +159,7 @@ jobs:
             sudo docker compose -f docker-compose.production.yml exec backend cp -r /app/collected_static/. /backend_static/static/
 
   send_message:
+    name: Send message
     runs-on: ubuntu-latest
     needs: deploy
     steps:
@@ -164,4 +168,4 @@ jobs:
         with:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
-          message: Деплой успешно выполнен! 
+          message: Деплой Taski успешно выполнен! 
