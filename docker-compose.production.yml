@@ -1,30 +1,30 @@
 version: '3'
 
 volumes:
-  taski_pg_data:
-  taski_static:
+  pg_data:
+  static:
 
 services:
   db:
     image: postgres:13.10
     env_file: .env
     volumes:
-      - taski_pg_data:/var/lib/postgresql/data
+      - pg_data:/var/lib/postgresql/data
   backend:
     image: fantyissues/taski_backend
     env_file: .env
     volumes:
-      - taski_static:/backend_static
+      - static:/backend_static
   frontend:
     image: fantyissues/taski_frontend
     env_file: .env
     command: cp -r /app/build/. /frontend_static/
     volumes:
-      - taski_static:/frontend_static
+      - static:/frontend_static
   gateway:
     image: fantyissues/taski_gateway
     env_file: .env
     volumes:
-      - taski_static:/staticfiles/
+      - static:/staticfiles/
     ports:
       - 8000:80
